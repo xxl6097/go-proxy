@@ -14,6 +14,10 @@ type OpenAiError struct {
 	Code    string      `json:"code"`
 }
 
+type Error struct {
+	OpenAiError
+}
+
 type OpenAiProxy struct {
 	_proxy *ApiProxy
 	apikey string
@@ -26,12 +30,14 @@ func NewOpenAI() *OpenAiProxy {
 		_proxy: NewApiProxy(),
 	}
 	apikey := os.Getenv("OPENAI_APIKEY")
+	fmt.Println("apikey", apikey)
 	if apikey != "" {
 		ai.apikey = apikey
 	} else {
 		//ai.apikey = "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"
 		panic("please set apikey in env")
 	}
+
 	gocode := os.Getenv("GO_APIKEY")
 	if gocode != "" {
 		ai.gocode = gocode
