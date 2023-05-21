@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"sort"
+	"strings"
 )
 
 type OpenAiError struct {
@@ -14,20 +16,18 @@ type OpenAiError struct {
 	Code    string      `json:"code"`
 }
 
-type Error struct {
-	OpenAiError
-}
-
 type OpenAiProxy struct {
 	_proxy *ApiProxy
 	apikey string
 	gocode string
 	port   string
+	keys   []string
 }
 
 func NewOpenAI() *OpenAiProxy {
 	ai := &OpenAiProxy{
 		_proxy: NewApiProxy(),
+		keys:   make([]string, 0),
 	}
 	apikey := os.Getenv("OPENAI_APIKEY")
 	if apikey != "" {
@@ -39,7 +39,11 @@ func NewOpenAI() *OpenAiProxy {
 
 	gocode := os.Getenv("GO_APIKEY")
 	if gocode != "" {
-		ai.gocode = "clife-" + gocode
+		codes := strings.Split(gocode, ",")
+		for _, code := range codes {
+			item := "clife-" + code
+			ai.keys = append(ai.keys, item)
+		}
 	} else {
 		panic("please set gocode in env")
 	}
@@ -54,10 +58,20 @@ func NewOpenAI() *OpenAiProxy {
 	return ai
 }
 
+func in(target string, str_array []string) bool {
+	sort.Strings(str_array)
+	index := sort.SearchStrings(str_array, target)
+	//index的取值：[0,len(str_array)]
+	if index < len(str_array) && str_array[index] == target { //需要注意此处的判断，先判断 &&左侧的条件，如果不满足则结束此处判断，不会再进行右侧的判断
+		return true
+	}
+	return false
+}
 func (this *OpenAiProxy) onIntercepter(w http.ResponseWriter, r *http.Request) bool {
-	fmt.Println("onIntercepter", r.Header)
 	authorization := r.Header.Get("Go-Authorization")
-	if authorization == "" || authorization != this.gocode {
+	isIn := in(authorization, this.keys)
+	fmt.Println("onIntercepter", isIn, r.Header)
+	if authorization == "" || !isIn {
 		err := OpenAiError{
 			Message: "请填写有效授权码",
 			Type:    "invalid_request_error",
