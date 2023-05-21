@@ -44,10 +44,13 @@ func NewOpenAI() *OpenAiProxy {
 	} else {
 		panic("please set port in env")
 	}
+
+	fmt.Println("NewOpenAI", ai)
 	return ai
 }
 
 func (this *OpenAiProxy) onIntercepter(w http.ResponseWriter, r *http.Request) bool {
+	fmt.Println("onIntercepter", r.Header)
 	authorization := r.Header.Get("Go-Authorization")
 	if authorization == "" || authorization != this.gocode {
 		err := OpenAiError{
@@ -75,7 +78,7 @@ func (this *OpenAiProxy) CreateOpenAiProxy() {
 	this._proxy.ListenProxy(fmt.Sprintf(":%s", this.port), "/", handle)
 }
 
-func (this *OpenAiProxy) GetUuxiaHandle() {
+func (this *OpenAiProxy) GetTestHandle() {
 	this._proxy.SetHost("api.uuxia.cn")
 	this._proxy.SetInterceptor(this.onIntercepter)
 	this._proxy.SetProtocol("http")

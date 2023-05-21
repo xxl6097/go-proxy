@@ -1,7 +1,7 @@
 version: '3.1'
 services:
-    chatgpt:
-        image: clife-devops-docker.pkg.coding.net/public-repository/prdsl/go-openai:v0.0.0-20230520113252
+    openai:
+        image: clife-devops-docker.pkg.coding.net/public-repository/prdsl/go-openai:v0.0.0-20230521131453
         container_name: go-openai
         restart: always
         ports:
