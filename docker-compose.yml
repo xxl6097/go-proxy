@@ -1,0 +1,12 @@
+version: '3.1'
+services:
+    chatgpt:
+        image: clife-devops-docker.pkg.coding.net/public-repository/prdsl/go-openai:v0.0.0-20230520113252
+        container_name: go-openai
+        restart: always
+        ports:
+            - '9090:8080' #物理机端口:容器端口
+        environment:
+            OPENAI_APIKEY: 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
+            GO_APIKEY: clife-001
+            SERVER_PORT: 8080
