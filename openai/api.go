@@ -30,9 +30,8 @@ func NewOpenAI() *OpenAiProxy {
 		_proxy: NewApiProxy(),
 	}
 	apikey := os.Getenv("OPENAI_APIKEY")
-	fmt.Println("apikey", apikey)
 	if apikey != "" {
-		ai.apikey = apikey
+		ai.apikey = "sk-" + apikey
 	} else {
 		//ai.apikey = "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"
 		panic("please set apikey in env")
@@ -40,7 +39,7 @@ func NewOpenAI() *OpenAiProxy {
 
 	gocode := os.Getenv("GO_APIKEY")
 	if gocode != "" {
-		ai.gocode = gocode
+		ai.gocode = "clife-" + gocode
 	} else {
 		panic("please set gocode in env")
 	}
