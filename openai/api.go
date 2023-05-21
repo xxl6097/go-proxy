@@ -41,8 +41,7 @@ func NewOpenAI() *OpenAiProxy {
 	if gocode != "" {
 		codes := strings.Split(gocode, ",")
 		for _, code := range codes {
-			item := "clife-" + code
-			ai.keys = append(ai.keys, item)
+			ai.keys = append(ai.keys, code)
 		}
 	} else {
 		panic("please set gocode in env")
