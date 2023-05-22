@@ -40,6 +40,12 @@ func (this *ApiProxy) CreateProxy() (func(http.ResponseWriter, *http.Request), e
 	return this.proxyRequestHandler(proxy), nil
 }
 
+func (svr *ApiProxy) setAllows(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Go-Authorization, Go-Token, vcode, authorization")
+}
+
 func (this *ApiProxy) modifyResponse() func(*http.Response) error {
 	return func(resp *http.Response) error {
 		return nil
@@ -61,6 +67,7 @@ func (this *ApiProxy) ListenProxy(address, path string, handler func(http.Respon
 
 func (this *ApiProxy) proxyRequestHandler(proxy *httputil.ReverseProxy) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
+		this.setAllows(&w)
 		isIntercept := false
 		if this.interceptor != nil {
 			isIntercept = this.interceptor(w, r)
