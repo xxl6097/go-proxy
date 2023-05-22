@@ -1,7 +1,6 @@
 package openai
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
@@ -73,17 +72,17 @@ func (this *OpenAiProxy) onIntercepter(w http.ResponseWriter, r *http.Request) b
 	}
 	isIn := in(authorization, this.keys)
 	fmt.Println("onIntercepter", isIn, r.Header)
-	if authorization == "" || !isIn {
-		err := OpenAiError{
-			Message: "请填写有效授权码",
-			Type:    "invalid_request_error",
-			Code:    "invalid_api_key",
-		}
-		buf, _ := json.Marshal(&err)
-		fmt.Println("-->", string(buf))
-		_, _ = w.Write(buf)
-		return true
-	}
+	//if authorization == "" || !isIn {
+	//	err := OpenAiError{
+	//		Message: "请填写有效授权码",
+	//		Type:    "invalid_request_error",
+	//		Code:    "invalid_api_key",
+	//	}
+	//	buf, _ := json.Marshal(&err)
+	//	fmt.Println("-->", string(buf))
+	//	_, _ = w.Write(buf)
+	//	return true
+	//}
 	return false
 }
 
