@@ -68,6 +68,9 @@ func in(target string, str_array []string) bool {
 }
 func (this *OpenAiProxy) onIntercepter(w http.ResponseWriter, r *http.Request) bool {
 	authorization := r.Header.Get("Go-Authorization")
+	if authorization == "" {
+		authorization = r.Header.Get("go-authorization")
+	}
 	isIn := in(authorization, this.keys)
 	fmt.Println("onIntercepter", isIn, r.Header)
 	if authorization == "" || !isIn {
