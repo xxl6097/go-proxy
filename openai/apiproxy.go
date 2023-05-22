@@ -44,7 +44,8 @@ func (svr *ApiProxy) setAllows(w *http.ResponseWriter) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, "+
-		"Go-Authorization, Go-Token, vcode, authorization, Origin, Referer, Sec-Fetch-Mode, User-Agent")
+		"Go-Authorization, Go-Token, vcode, authorization")
+	(*w).Header().Set("Access-Control-Allow-Origin", "*") //允许访问所有域
 }
 
 func (this *ApiProxy) modifyResponse() func(*http.Response) error {
