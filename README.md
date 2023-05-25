@@ -4,6 +4,14 @@
 
 ```shell
 
+curl http://18.140.235.243/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer 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" \
+  -d '{
+    "model": "gpt-3.5-turbo",
+    "messages": [{"role": "user", "content": "Hello!"}]
+  }'
+
 curl https://api.openai.com/v1/chat/completions \
     -H "Content-Type: application/json" \
     -H "Go-Authorization: clife-001" \
