@@ -4,6 +4,11 @@
 
 ```shell
 
+curl http://aispeaker.cc:9090/v1/models -H "Go-Authorization: aiuuxia"
+
+curl http://aispeaker.cc:9090/v1/models \
+  -H "Authorization: Bearer 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"
+
 curl https://api.openai.com/v1/models \
   -H "Authorization: Bearer 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"
 
