@@ -29,7 +29,10 @@ func ProxyRequestHandler(proxy *httputil.ReverseProxy) func(http.ResponseWriter,
 func TestProxy() {
 	// initialize a reverse proxy and pass the actual backend server url here
 	// 初始化反向代理并传入真正后端服务的地址
-	proxy, err := NewProxy("https://chat.openai.com")
+	address := "https://chat.openai.com"
+	//address = "http://frp.uuxia.cn/"
+	address = "http://uuxia.cn/"
+	proxy, err := NewProxy(address)
 	if err != nil {
 		panic(err)
 	}
