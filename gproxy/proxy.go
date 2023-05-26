@@ -2,7 +2,7 @@ package gproxy
 
 import (
 	"fmt"
-	"go-openai/middle"
+	"github.com/xxl6097/go-proxy/middle"
 	"log"
 	"net/http"
 	"net/http/httputil"
